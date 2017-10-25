@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var campSchema  = require("./../model/post.js");
 var commentSchema = require("./../model/comments.js");
 
-mongoose.connect("mongodb://localhost/campsites");
+mongoose.connect("mongodb://threebodyphysics:Prelortoetoe123@ds133465.mlab.com:33465/blogentries");
 
 var Campsite = mongoose.model("Campsite", campSchema);
 var Comment = mongoose.model("Comment", commentSchema);
