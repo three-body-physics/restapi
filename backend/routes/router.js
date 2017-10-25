@@ -12,6 +12,7 @@ router.get("/", mainCtrl.sayHello);
 router.get("/api/blogs", mainCtrl.fetchEntries);
 router.get("/api/blog/:id", mainCtrl.fetchEntry);
 router.post("/api/blogs", mainCtrl.createEntry);
+router.post("/api/blog/:id", mainCtrl.postComment);
 router.put("/api/blog/:id", mainCtrl.updateEntry);
 router.delete("/api/blogs/:id", mainCtrl.deleteEntry);
 

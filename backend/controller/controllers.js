@@ -65,7 +65,7 @@ camp.save(function(err){
 
 }
 
-module.exports.updateEntry = function(req, res) {
+module.exports.postComment = function(req, res) {
 
   var id = req.body._id;
   var comment = req.body.content;
