@@ -7,15 +7,15 @@ mongoose.connect("mongodb://localhost/campsites");
 var Campsite = mongoose.model("Campsite", campSchema);
 var Comment = mongoose.model("Comment", commentSchema);
 
-module.exports.redirectHome = function(req, res) {
-  res.redirect("/blogs");
+module.exports.sayHello = function(req, res) {
+  res.send("hello from API");
 }
 
-module.exports.sendHTML = function(req, res) {
+// module.exports.sendHTML = function(req, res) {
 
-  res.render("index");
+//   res.render("index");
 
-}
+// }
 
 module.exports.fetchEntries = function(req, res) {
 

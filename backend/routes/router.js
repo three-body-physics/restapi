@@ -3,7 +3,7 @@ var router = express.Router();
 
 var mainCtrl = require("./../controller/controllers");
 
-// router.get("/", mainCtrl.redirectHome);
+router.get("/", mainCtrl.sayHello);
 //
 // router.get("/blogs", mainCtrl.sendHTML);
 // router.get("/blogs/new", mainCtrl.sendHTML);
