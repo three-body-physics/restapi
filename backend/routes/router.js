@@ -10,9 +10,9 @@ router.get("/", mainCtrl.sayHello);
 // router.get("/blogs/:id", mainCtrl.sendHTML);
 
 router.get("/api/blogs", mainCtrl.fetchEntries);
-router.get("/api/blogs/:id", mainCtrl.fetchEntry);
+router.get("/api/blog/:id", mainCtrl.fetchEntry);
 router.post("/api/blogs", mainCtrl.createEntry);
-router.post("/api/blogs/:id", mainCtrl.updateEntry);
-// router.post("/api/blogs/:id", mainCtrl.deleteEntry);
+router.put("/api/blog/:id", mainCtrl.updateEntry);
+router.delete("/api/blogs/:id", mainCtrl.deleteEntry);
 
 module.exports = router;
