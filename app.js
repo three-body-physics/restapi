@@ -3,6 +3,7 @@ var app = express();
 
 var path = require("path");
 var bodyParser = require("body-parser");
+var port = process.env.PORT || 3000
 
 
 app.use(bodyParser.urlencoded({
@@ -20,4 +21,4 @@ app.use(express.static("./public"));
 var routes = require("./backend/routes/router");
 app.use("/", routes);
 
-var server = require('http').Server(app).listen(3000, "localhost");
+var server = require('http').Server(app).listen(port);
