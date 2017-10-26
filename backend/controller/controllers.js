@@ -52,6 +52,7 @@ var campData = {
   name: req.body.name,
   image: req.body.image,
   text: req.body.text,
+  date: req.body.date
 }
 
 var camp = new Campsite(campData);
