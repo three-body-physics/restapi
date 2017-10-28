@@ -39,17 +39,13 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
 
   }, function(err, user) {
 
-    if (err) {
-      return done(err, false)
-    }
-
-    if (user) {
+       if (user) {
 
       done(null, user)
 
     } else {
 
-      done(null, false)
+      done(err, false)
 
     }
   });
