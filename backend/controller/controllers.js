@@ -1,11 +1,101 @@
 var mongoose = require("mongoose");
+var _ = require("lodash");
+
+// require passport packages
+
+var jwt = require("jsonwebtoken");
+var passport = require("passport");
+var passportJWT = require("passport-jwt");
+
+var ExtractJwt = passportJWT.ExtractJwt;
+var JwtStrategy = passportJWT.Strategy;
+
+//mongdb and schema configs
+
 var campSchema  = require("./../model/post.js");
 var commentSchema = require("./../model/comments.js");
+var UserSchema = require("./../model/user.js");
+var secret = require("./secret.js");
 
-mongoose.connect("mongodb://threebodyphysics:Prelortoetoe123@ds133465.mlab.com:33465/blogentries");
+mongoose.connect(secret.mongolabURL);
 
 var Campsite = mongoose.model("Campsite", campSchema);
 var Comment = mongoose.model("Comment", commentSchema);
+var User = mongoose.model("User", UserSchema);
+
+// passport strategy config
+
+
+var options = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
+    secretOrKey: secret.key
+}
+
+passport.use(new JwtStrategy(options, function(jwt_payload, done) {
+
+  User.findOne({
+
+    id: jwt_payload.id
+
+  }, function(err, user) {
+
+    if (err) {
+      return done(err, false)
+    }
+
+    if (user) {
+
+      done(null, user)
+
+    } else {
+
+      done(null, false)
+
+    }
+  });
+}));
+
+// logic for UserAuth
+
+module.exports.userReg = function(req, res) {
+
+  if (!req.body.username || !req.body.password) {
+
+    res.json({
+      success: false,
+      message: "Please enter the required fields"
+    });
+
+  } else {
+
+    var newUser = new User({
+      username: req.body.username,
+      password: req.body.password
+    });
+
+    newUser.save(function(err) {
+      if(err) {
+
+        return res.json({
+          success: false,
+          message: "This email address already exist"
+      });
+
+      } 
+
+    res.json({
+      success: false,
+      message: "Successfully registered"
+    });
+  });
+}
+}
+
+
+
+
+
+// logic for API data requests
 
 module.exports.sayHello = function(req, res) {
   res.send("hello from API");
@@ -28,8 +118,6 @@ Campsite.find({}, function(err, campsites) {
 });
 
 }
-
-
 
 module.exports.fetchEntry = function(req, res) {
 

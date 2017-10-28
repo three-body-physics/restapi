@@ -9,8 +9,13 @@
   "author": "TBP",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "mongoose": "^4.11.9"
+    "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.11.9",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1"
   }
 }
