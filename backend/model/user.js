@@ -16,7 +16,7 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.statics.authenticate = function(username, password, cb) {
-	User.findOne({ username: username }).exec(function(err, user){
+	this.findOne({ username: username }).exec(function(err, user){
 		if (err) {
 			return cb(err);
 		} else if(!user) {
