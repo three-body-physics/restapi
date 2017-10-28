@@ -78,17 +78,54 @@ module.exports.userReg = function(req, res) {
 
         return res.json({
           success: false,
-          message: "This email address already exist"
+          message: "This user already exist"
       });
 
       } 
 
     res.json({
-      success: false,
+      success: true,
       message: "Successfully registered"
     });
   });
 }
+}
+
+module.exports.userLogin = function(req, res) {
+
+  if (!req.body.username || !req.body.password) {
+
+      res.json({
+      success: false,
+      message: "Please enter the required fields"
+    });
+
+  } else {
+
+    User.authenticate(req.body.username, req.body.password, function(err, user) {
+
+      if (err || !user) {        
+        res.json({
+          success: false,
+          error: err,
+          message: "User or password does not match."
+        });
+
+      } else {
+        var token = jwt.sign(user, secret.key, {
+          expiresIn: "10h"
+        });
+
+        res.json({
+          success: true,
+          message: "Successfully logged in.",
+          token: token
+        });
+
+      }
+
+    });
+  }
 }
 
 
@@ -110,11 +147,19 @@ module.exports.sayHello = function(req, res) {
 module.exports.fetchEntries = function(req, res) {
 
 Campsite.find({}, function(err, campsites) {
+
   if (err) {
-    console.log(err);
+
+    res.json({
+      success: false,
+      message: "Error cannot find entries"
+    });
+
   } else {
+
     res.json(campsites);
-  }
+
+  }  
 });
 
 }
@@ -134,6 +179,9 @@ Campsite.findById(id).populate("comments").exec(function(err, data) {
 
 }
 
+
+// create a new Entry and save to DB
+
 module.exports.createEntry = function(req, res) {
 
 var campData = {
@@ -144,11 +192,12 @@ var campData = {
 }
 
 var camp = new Campsite(campData);
+
 camp.save(function(err){
   if(err) {
     console.log(err);
   } else {
-    res.json({status: "success"});
+    res.json({success: true, message: "Success, entry saved!"});
   }
 })
 
