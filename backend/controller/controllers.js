@@ -104,7 +104,7 @@ module.exports.userLogin = function(req, res) {
         res.json({
           success: false,
           error: err,
-          message: "User or password does not match."
+          message: "Username or password does not match."
         });
 
       } else if(user) {
