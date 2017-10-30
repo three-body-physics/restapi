@@ -191,7 +191,7 @@ var camp = new Campsite(campData);
 
 camp.save(function(err){
   if(err) {
-    console.log(err);
+    res.json(err);
   } else {
     res.json({success: true, message: "Success, entry saved!"});
   }
