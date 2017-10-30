@@ -107,7 +107,7 @@ module.exports.userLogin = function(req, res) {
           message: "Username or password does not match."
         });
 
-      } else if(user) {
+      } else if(user != null) {
         var token = jwt.sign(user, secret.key, {
           expiresIn: "10h"
         });
