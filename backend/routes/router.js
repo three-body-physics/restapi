@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 var mainCtrl = require("./../controller/controllers");
+var passport = require("passport");
 
 router.get("/", mainCtrl.sayHello);
 //
@@ -11,7 +12,7 @@ router.get("/", mainCtrl.sayHello);
 
 router.get("/api/blogs", mainCtrl.fetchEntries);
 router.get("/api/blog/:id", mainCtrl.fetchEntry);
-router.post("/api/blogs", mainCtrl.createEntry);
+router.post("/api/blogs", passport.authenticate("jwt", {session: false}), mainCtrl.createEntry);
 router.post("/api/blog/:id", mainCtrl.postComment);
 router.post("/api/register", mainCtrl.userReg);
 router.post("/api/login", mainCtrl.userLogin);
