@@ -21,7 +21,7 @@ UserSchema.statics.authenticate = function(username, password, cb) {
 			return cb(err);
 		} else if(!user) {
 			var error = new Error("User not found!");
-			return cb(error);
+			return cb(error, null);
 		} 
 		bcrypt.compare(password, user.password, function(err, matchResult) {
 			if (matchResult === true) {
