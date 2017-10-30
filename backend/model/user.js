@@ -18,11 +18,13 @@ var UserSchema = new mongoose.Schema({
 UserSchema.statics.authenticate = function(username, password, cb) {
 	this.findOne({ username: username }).exec(function(err, user){
 		if (err) {
-			return cb(err);
-		} else if(!user) {
-			var error = new Error("User not found!");
-			return cb(error, null);
+			return cb(err, null);
 		} 
+
+		// else if(!user) {
+		// 	var error = new Error("User not found!");
+		// 	return cb(error, null);
+		// } 
 		bcrypt.compare(password, user.password, function(err, matchResult) {
 			if (matchResult === true) {
 				return cb(null, user);
