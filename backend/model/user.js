@@ -22,10 +22,10 @@ UserSchema.statics.authenticate = function(username, password, cb) {
 		} 
 
 		else if(!user) {
-			var error = new Error("User not found!");
+			var error = "Error user not found!";
 			return cb(error, null);
 		} 
-		
+
 		bcrypt.compare(password, user.password, function(err, matchResult) {
 			if (matchResult === true) {
 				return cb(null, user);
