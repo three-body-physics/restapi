@@ -45,7 +45,7 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
 
     } else {
 
-      done(null, false)
+      done(err, false)
 
     }
   });
