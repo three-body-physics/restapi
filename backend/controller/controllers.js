@@ -27,7 +27,7 @@ var User = mongoose.model("User", UserSchema);
 
 
 var options = {
-    jwtFromRequest: ExtractJwt.fromHeader("Authorization"),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: secret.key
 }
 
