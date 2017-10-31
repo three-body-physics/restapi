@@ -230,6 +230,7 @@ var postData = {
   name: req.body.name,
   image: req.body.image,
   text: req.body.text,
+  author: req.body.author,
   date: req.body.date
 }
 
