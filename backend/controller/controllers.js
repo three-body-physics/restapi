@@ -150,7 +150,7 @@ module.exports.sayHello = function(req, res) {
 
 module.exports.fetchEntries = function(req, res) {
 
-Post.find({}, function(err, campsites) {
+Post.find({}, function(err, posts) {
 
   if (err) {
 
@@ -161,7 +161,7 @@ Post.find({}, function(err, campsites) {
 
   } else {
 
-    res.json(campsites);
+    res.json(posts);
 
   }  
 });
