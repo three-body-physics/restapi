@@ -66,12 +66,13 @@ module.exports.userReg = function(req, res) {
 
   } else {
 
-    var newUser = new User({
+    var newUser {
       username: req.body.username,
       password: req.body.password
-    });
+    };
 
-    newUser.save(function(err) {
+    User.create(newUser, function(err, user) {
+
       if(err) {
 
         return res.json({
@@ -81,15 +82,48 @@ module.exports.userReg = function(req, res) {
 
       } else {
 
+      var token = jwt.sign(user, secret.key, {
+          expiresIn: "10h"
+        });
+
+
     res.json({
       success: true,
       message: "Successfully registered",
-      user: newUser
+      username: user.username,
+      userId: user._id,
+      token: token
     });
 
     }
 
-  });
+    });
+
+  //   newUser.save(function(err) {
+  //     if(err) {
+
+  //       return res.json({
+  //         success: false,
+  //         message: "This user already exist"
+  //     });
+
+  //     } else {
+
+  //     var token = jwt.sign(user, secret.key, {
+  //         expiresIn: "10h"
+  //       });
+
+
+  //   res.json({
+  //     success: true,
+  //     message: "Successfully registered",
+  //     username: newUser
+  //   });
+
+  //   }
+
+  // });
+
 }
 }
 
