@@ -12,18 +12,20 @@ var JwtStrategy = passportJWT.Strategy;
 
 //mongdb and schema configs
 
-var campSchema  = require("./../model/post.js");
+var postSchema  = require("./../model/post.js");
 var commentSchema = require("./../model/comments.js");
 var UserSchema = require("./../model/user.js");
 var secret = require("./secret.js");
 
 mongoose.connect(secret.mongolabURL);
 
-var Campsite = mongoose.model("Campsite", campSchema);
+var Post = mongoose.model("Post", postSchema);
 var Comment = mongoose.model("Comment", commentSchema);
 var User = mongoose.model("User", UserSchema);
 
 // passport strategy config
+
+
 
 
 var options = {
@@ -115,7 +117,8 @@ module.exports.userLogin = function(req, res) {
         res.json({
           success: true,
           message: "Successfully logged in.",
-          token: token
+          token: token,
+          user: user
         });
 
       } else {
@@ -147,7 +150,7 @@ module.exports.sayHello = function(req, res) {
 
 module.exports.fetchEntries = function(req, res) {
 
-Campsite.find({}, function(err, campsites) {
+Post.find({}, function(err, campsites) {
 
   if (err) {
 
@@ -169,7 +172,7 @@ module.exports.fetchEntry = function(req, res) {
 
 var id = req.params.id;
 
-Campsite.findById(id).populate("comments").exec(function(err, data) {
+Post.findById(id).populate("comments").exec(function(err, data) {
   if( err) {
     res.json(err);
   } else {
@@ -185,16 +188,16 @@ Campsite.findById(id).populate("comments").exec(function(err, data) {
 
 module.exports.createEntry = function(req, res) {
 
-var campData = {
+var postData = {
   name: req.body.name,
   image: req.body.image,
   text: req.body.text,
   date: req.body.date
 }
 
-var camp = new Campsite(campData);
+var post = new Post(postData);
 
-camp.save(function(err){
+post.save(function(err){
   if(err) {
     res.json(err);
   } else {
@@ -206,10 +209,10 @@ camp.save(function(err){
 
 module.exports.postComment = function(req, res) {
 
-  var id = req.body._id;
-  var comment = req.body.content;
+  var id = req.body._id; 
 
-  Campsite.findById(id, function(err, obj) {
+
+  Post.findById(id, function(err, post) {
     if(err) {
       console.log(err);
       res.json(err);
@@ -219,10 +222,11 @@ module.exports.postComment = function(req, res) {
           console.log(err);
           res.json(err);
         } else {
-
-          obj.comments.push(comment);
-          console.log(comment);
-          obj.save();
+          comment.author.id = req.body.userId;
+          comment.author.username = req.body.username;
+          comment.save();
+          post.comments.push(comment);          
+          post.save();
         }
       })
     }
