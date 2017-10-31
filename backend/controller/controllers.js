@@ -227,6 +227,10 @@ module.exports.postComment = function(req, res) {
           comment.save();
           post.comments.push(comment);          
           post.save();
+          res.json({
+            success: true,
+            message: "Comment posted!"
+          })
         }
       })
     }
