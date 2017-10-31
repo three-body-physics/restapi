@@ -84,7 +84,7 @@ module.exports.userReg = function(req, res) {
     res.json({
       success: true,
       message: "Successfully registered",
-      user: this
+      user: newUser
     });
 
     }
