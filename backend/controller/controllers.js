@@ -79,12 +79,16 @@ module.exports.userReg = function(req, res) {
           message: "This user already exist"
       });
 
-      } 
+      } else {
 
     res.json({
       success: true,
-      message: "Successfully registered"
+      message: "Successfully registered",
+      user: this
     });
+
+    }
+
   });
 }
 }
