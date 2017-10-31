@@ -66,7 +66,7 @@ module.exports.userReg = function(req, res) {
 
   } else {
 
-    var newUser {
+    var newUser = {
       username: req.body.username,
       password: req.body.password
     };
