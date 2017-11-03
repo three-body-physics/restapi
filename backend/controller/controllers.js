@@ -97,31 +97,6 @@ module.exports.userReg = function(req, res) {
 
         });
 
-        //   newUser.save(function(err) {
-        //     if(err) {
-
-        //       return res.json({
-        //         success: false,
-        //         message: "This user already exist"
-        //     });
-
-        //     } else {
-
-        //     var token = jwt.sign(user, secret.key, {
-        //         expiresIn: "10h"
-        //       });
-
-
-        //   res.json({
-        //     success: true,
-        //     message: "Successfully registered",
-        //     username: newUser
-        //   });
-
-        //   }
-
-        // });
-
     }
 }
 

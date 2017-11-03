@@ -13,7 +13,7 @@ router.get("/", mainCtrl.sayHello);
 router.get("/api/blogs", mainCtrl.fetchEntries);
 router.get("/api/blog/:id", mainCtrl.fetchEntry);
 router.post("/api/blogs", passport.authenticate("jwt", {session: false}), mainCtrl.createEntry);
-router.post("/api/blog/:id", mainCtrl.postComment);
+router.post("/api/blog/:id", passport.authenticate("jwt", {session: false}), mainCtrl.postComment);
 router.post("/api/register", mainCtrl.userReg);
 router.post("/api/login", mainCtrl.userLogin);
 // router.put("/api/blog/:id", mainCtrl.updateEntry);
