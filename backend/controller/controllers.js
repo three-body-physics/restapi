@@ -53,7 +53,7 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
 
 //middelware for checking if User logged in is admin or not, token from header is decoded and verified to see if it belongs to Admin
 
-module.exports.adminAuth = function(req, res) {
+module.exports.adminAuth = function(req, res, next) {
 
     if (req.body.username === "admin") {
 
@@ -91,13 +91,11 @@ module.exports.adminAuth = function(req, res) {
 
                             Post.find({}, function(err, posts) {
 
-                                console.log("Post error")
                                 if (err) {
                                     res.json({
                                         success: false,
                                         message: err
                                     });
-
 
 
                                 } else {
@@ -121,10 +119,8 @@ module.exports.adminAuth = function(req, res) {
                                 message: "Authorization required."
                             });
 
-
                         }
                     });
-
 
                 }
             });
@@ -244,7 +240,6 @@ module.exports.userProfile = function(req, res) {
             });
         } else {
 
-
             res.json({
                 success: true,
                 message: "Posts retrieved.",
@@ -252,46 +247,16 @@ module.exports.userProfile = function(req, res) {
 
             });
 
-
-            // posts.populate("comments").exec(function(err, comment) {
-
-            //     if (err) {
-            //         res.json({
-            //             success: false,
-            //             message: err
-            //         });
-            //     } else {
-
-            //         res.json({
-            //             success: true,
-            //             message: "Posts retrieved.",
-            //             entries: this
-
-            //         });
-
-            //     }
-
-            // });
-
-
         }
     });
 
 }
-
-
 
 // logic for API data requests
 
 module.exports.sayHello = function(req, res) {
     res.send("hello from API");
 }
-
-// module.exports.sendHTML = function(req, res) {
-
-//   res.render("index");
-
-// }
 
 module.exports.fetchEntries = function(req, res) {
 
@@ -319,7 +284,10 @@ module.exports.fetchEntry = function(req, res) {
 
     Post.findById(id).populate("comments").exec(function(err, data) {
         if (err) {
-            res.json(err);
+            res.json({
+              success: false,
+              message: "Error, entries can't be retrieved."
+            });
         } else {
             res.json(data);
         }
@@ -345,9 +313,15 @@ module.exports.createEntry = function(req, res) {
 
     post.save(function(err) {
         if (err) {
-            res.json(err);
+            res.json({
+                success: false,
+                message: err
+            });
         } else {
-            res.json({ success: true, message: "Success, entry saved!" });
+            res.json({
+                success: true,
+                message: "Success, entry saved!"
+            });
         }
     })
 
@@ -365,19 +339,52 @@ module.exports.postComment = function(req, res) {
         } else {
             Comment.create(req.body.content, function(err, comment) {
                 if (err) {
+
                     console.log(err);
-                    res.json(err);
+                    res.json({
+                        success: false,
+                        message: err
+                    });
+
                 } else {
+
                     comment.author.id = req.body.userId;
                     comment.author.username = req.body.username;
                     comment.date = req.body.date;
                     comment.save();
                     post.comments.push(comment);
-                    post.save();
-                    res.json({
-                        success: true,
-                        message: "Comment posted!"
-                    })
+                    post.save(function(err, post, num) {
+
+                        if (err) {
+                            res.json({
+                                success: false,
+                                message: "Comment posting failed"
+                            })
+                        } else {
+
+                            Post.findById(id).populate("comments").exec(function(err, foundpost) {
+
+                                if (err) {
+                                    res.json({
+                                        success: false,
+                                        message: err
+                                    });
+                                } else {
+
+                                    res.json({
+                                        success: true,
+                                        message: "Comment posted!",
+                                        post: foundpost
+                                    });
+
+                                }
+
+                            });
+
+                        }
+
+                    });
+
                 }
             })
         }
