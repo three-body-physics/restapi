@@ -51,6 +51,94 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
     });
 }));
 
+//middelware for checking if User logged in is admin or not, token from header is decoded and verified to see if it belongs to Admin
+
+module.exports.adminAuth = function(req, res) {
+
+    if (req.body.username === "admin") {
+
+        var authHeader = req.header("Authorization");
+
+        if (authHeader) {
+
+            var bearer = authHeader.split(" ");
+            var token = bearer[1];
+
+            jwt.verify(token, secret.key, function(err, decoded) {
+                if (err) {
+
+                    console.log("jwt error");
+
+                    res.json({
+                        success: false,
+                        message: err
+                    });
+
+                } else {
+
+
+                    User.authenticate(decoded._doc.username, "admin", function(err, user) {
+                        if (err || !user) {
+                            res.json({
+                                success: false,
+                                error: err,
+                                message: "Denied, no access"
+                            });
+
+                            console.log("user auth error one")
+
+                        } else if (user) {
+
+                            Post.find({}, function(err, posts) {
+
+                                console.log("Post error")
+                                if (err) {
+                                    res.json({
+                                        success: false,
+                                        message: err
+                                    });
+
+
+
+                                } else {
+
+                                    res.json({
+                                        success: true,
+                                        message: "Fetched all entries",
+                                        entries: posts
+                                    });
+
+                                }
+                            });
+
+
+                        } else {
+
+                            console.log("user error two");
+
+                            res.json({
+                                success: false,
+                                message: "Authorization required."
+                            });
+
+
+                        }
+                    });
+
+
+                }
+            });
+
+        } else {
+            return next();
+        }
+
+    } else {
+        return next();
+    }
+}
+
+
 // logic for UserAuth
 
 module.exports.userReg = function(req, res) {
@@ -136,14 +224,60 @@ module.exports.userLogin = function(req, res) {
                 res.json({
                     success: false,
                     message: "Error User or password does not match."
-                })
+                });
             }
 
         });
     }
 }
 
+module.exports.userProfile = function(req, res) {
+    var userId = req.body.userId;
+    var username = req.body.username;
 
+    Post.find({ author: username }, function(err, posts) {
+        if (err) {
+
+            res.json({
+                success: false,
+                message: err
+            });
+        } else {
+
+
+            res.json({
+                success: true,
+                message: "Posts retrieved.",
+                entries: posts
+
+            });
+
+
+            // posts.populate("comments").exec(function(err, comment) {
+
+            //     if (err) {
+            //         res.json({
+            //             success: false,
+            //             message: err
+            //         });
+            //     } else {
+
+            //         res.json({
+            //             success: true,
+            //             message: "Posts retrieved.",
+            //             entries: this
+
+            //         });
+
+            //     }
+
+            // });
+
+
+        }
+    });
+
+}
 
 
 
@@ -253,6 +387,18 @@ module.exports.postComment = function(req, res) {
 
 module.exports.deleteEntry = function(req, res) {
 
-    res.redirect("/blogs");
+    Post.findByIdAndRemove(req.params.id, function(err) {
+        if (err) {
+            res.json({
+                success: false,
+                message: err
+            });
+        } else {
+            res.json({
+                success: true,
+                message: "Entry deleted."
+            });
+        }
+    });
 
 }
