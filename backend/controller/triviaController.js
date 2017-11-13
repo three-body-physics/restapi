@@ -148,7 +148,7 @@ module.exports.updateUserRecord = function(req, res) {
                 message: "Something went wrong",
                 error: err
             });
-        } else {            
+        } else if (user) {            
 
             var record = new triviaRecord(req.body.record);
 
@@ -168,6 +168,12 @@ module.exports.updateUserRecord = function(req, res) {
                     });
                 }
             });
+        } else {
+            res.json({
+                success: false,
+                message: "user not found",
+                error: err
+            })
         }
     })
 }
