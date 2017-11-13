@@ -137,7 +137,7 @@ module.exports.userLogin = function(req, res) {
     }
 }
 
-module.export.updateUserRecord = function(req, res) {
+module.exports.updateUserRecord = function(req, res) {
 
     var userID = req.body._id;
 
@@ -161,7 +161,7 @@ module.export.updateUserRecord = function(req, res) {
     })
 }
 
-module.export.retreiveUser = function(req, res) {
+module.exports.retreiveUser = function(req, res) {
 
     var userID = req.params._id;
 
@@ -175,7 +175,7 @@ module.export.retreiveUser = function(req, res) {
         } else {
             res.json({
                 success: true,
-                user: user;
+                user: user
             });
         }
     });
