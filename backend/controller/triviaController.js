@@ -150,7 +150,7 @@ module.exports.updateUserRecord = function(req, res) {
             });
         } else {            
 
-            var record = new triviaRecord({req.body.record});
+            var record = new triviaRecord(req.body.record);
 
             record.save(function(err) {
                 if (err) {
