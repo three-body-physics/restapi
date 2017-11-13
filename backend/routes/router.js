@@ -20,6 +20,6 @@ var triviaController = require("./../controller/triviaController");
 router.post("/api/trivia/register", triviaController.userReg);
 router.post("/api/trivia/login", triviaController.userLogin);
 router.get("/api/trivia/user/:userid", passport.authenticate("jwt-2", {session: false}), triviaController.retreiveUser);
-router.post("api/trivia/user/:userid", triviaController.updateUserRecord);
+router.post("/api/trivia/user/:userid", triviaController.updateUserRecord);
 
 module.exports = router;
