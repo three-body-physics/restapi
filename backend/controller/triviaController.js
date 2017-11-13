@@ -150,21 +150,22 @@ module.exports.updateUserRecord = function(req, res) {
             });
         } else {
             var record = new triviaRecord(req.body.record);
-            record.save(function(err){
+            record.save(function(err) {
                 if (err) {
                     res.json({
                         success: false,
                         message: err
                     })
                 } else {
+
+                    user.records.push(record);
+                    res.json({
+                        success: true,
+                        message: "User record updated.",
+                        user: user
+                    });
+                }
             });
-            user.records.push(record);
-            res.json({
-                success: true,
-                message: "User record updated.",
-                user: user
-            });
-            }
         }
     })
 }
