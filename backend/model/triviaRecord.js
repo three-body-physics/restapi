@@ -4,8 +4,8 @@ module.exports= new mongoose.Schema ({
   category: String,
   difficulty: String,
   date: { type: Date, default: Date.now },
-  timeTaken: String,
-  corrects: String,
-  incorrects: String,
+  timeTaken: Number,
+  corrects: Number,
+  incorrects: Number,
   quizes: []
 })

@@ -148,8 +148,10 @@ module.exports.updateUserRecord = function(req, res) {
                 message: "Something went wrong",
                 error: err
             });
-        } else {
-            var record = new triviaRecord(req.body.record);
+        } else {            
+
+            var record = new triviaRecord({req.body.record});
+
             record.save(function(err) {
                 if (err) {
                     res.json({
