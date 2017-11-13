@@ -14,7 +14,7 @@ var triviaRecordSchema = require("./../model/triviaRecord.js");
 
 var mongoose = require("mongoose");
 var secret = require("./secret.js");
-mongoose.connect(secret.mongolabURLTrivia);
+mongoose.connect(secret.mongolabURL);
 
 var triviaRecord = mongoose.model("triviaRecord", triviaRecordSchema);
 var triviaUser = mongoose.model("triviaUser", triviaUserSchema);
@@ -139,7 +139,7 @@ module.exports.userLogin = function(req, res) {
 
 module.exports.updateUserRecord = function(req, res) {
 
-    var userID = req.body.userid;
+    var userID = req.params.userid;
 
     triviaUser.findById(userID, function(err, user) {
         if (err) {
