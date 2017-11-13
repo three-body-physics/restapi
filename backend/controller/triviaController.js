@@ -139,7 +139,7 @@ module.exports.userLogin = function(req, res) {
 
 module.exports.updateUserRecord = function(req, res) {
 
-    var userID = req.body._id;
+    var userID = req.body.userid;
 
     triviaUser.findById(userID, function(err, user) {
         if (err) {
