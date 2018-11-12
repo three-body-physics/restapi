@@ -352,6 +352,7 @@ module.exports.postComment = function(req, res) {
                     comment.author.username = req.body.username;
                     comment.date = req.body.date;
                     comment.save();
+                    console.log(post.comments);
                     post.comments = post.comments.concat(comment);
                     post.save(function(err, post, num) {
 
