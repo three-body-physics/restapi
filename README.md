@@ -23,7 +23,7 @@ Rest API for handling API call for personal projects
 
 /api/register make POST request with JSON object containing username/password to create new user acount.
 
-/api/login" make POST request with JSON object containing username/password to log in.
+/api/login make POST request with JSON object containing username/password to log in.
 
 /api/home/user/:userId POST request route for user panel, it checks to see if user has admin privilege.
 
