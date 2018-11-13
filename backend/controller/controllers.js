@@ -353,7 +353,8 @@ module.exports.postComment = function(req, res) {
                     comment.date = req.body.date;
                     comment.save();
                     console.log(post.comments);
-                    post.comments = post.comments.concat(comment);
+                    //post.comments.push(comment); deprecated
+                    post.comments = post.comments.concat(comment); 
                     post.save(function(err, post, num) {
 
                         if (err) {
