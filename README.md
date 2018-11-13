@@ -1,5 +1,5 @@
 # restapi
-Rest API for handling API calls for personal projects
+JSON API for handling API calls for personal projects
 
 ## Testing
 
