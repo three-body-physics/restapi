@@ -9,6 +9,8 @@ JSON API for handling API calls for personal projects
 
 > serving https://github.com/three-body-physics/Travelodge-deploy
 
+> https://vuetravelodge.herokuapp.com/home
+
 
 ``` bash
 
